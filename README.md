@@ -1,4 +1,4 @@
-# three_motion
+# threejs_playground
 
 ## Project setup
 ```
