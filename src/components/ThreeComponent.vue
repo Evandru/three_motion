@@ -24,11 +24,10 @@ export default {
       renderer.setSize(width, height);
       container.appendChild(renderer.domElement);
 
-      // Load the star texture
       const loader = new THREE.TextureLoader();
-      const starTexture = loader.load('/star.png');
+      // const starTexture = loader.load('/star.png');
+      const starTexture = loader.load('/threejs_playground/star.png');
 
-      // Create star field
       const starGeometry = new THREE.BufferGeometry();
       const starMaterial = new THREE.PointsMaterial({
         size: 0.5,
