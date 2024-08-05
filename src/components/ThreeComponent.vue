@@ -1,50 +1,81 @@
 <template>
-  <div ref="threeContainer" class="three-container"></div>
+  <div ref="starryContainer" class="starry-container"></div>
 </template>
 
 <script>
 import * as THREE from 'three';
 
 export default {
-  name: 'ThreeComponent',
+  name: 'StarryBackground',
   mounted() {
     this.initThree();
   },
   methods: {
     initThree() {
-      // Configurar cena, câmera e renderizador
-      this.scene = new THREE.Scene();
-      this.camera = new THREE.PerspectiveCamera(75, this.$refs.threeContainer.clientWidth / this.$refs.threeContainer.clientHeight, 0.1, 1000);
-      this.renderer = new THREE.WebGLRenderer();
-      this.renderer.setSize(this.$refs.threeContainer.clientWidth, this.$refs.threeContainer.clientHeight);
-      this.$refs.threeContainer.appendChild(this.renderer.domElement);
+      const container = this.$refs.starryContainer;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
 
-      // Criar um cubo
-      const geometry = new THREE.BoxGeometry();
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      this.cube = new THREE.Mesh(geometry, material);
-      this.scene.add(this.cube);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+      camera.position.z = 1;
 
-      this.camera.position.z = 5;
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(width, height);
+      container.appendChild(renderer.domElement);
 
-      // Iniciar animação
-      this.animate();
-    },
-    animate() {
-      requestAnimationFrame(this.animate);
+      // Load the star texture
+      const loader = new THREE.TextureLoader();
+      const starTexture = loader.load('/star.png');
 
-      this.cube.rotation.x += 0.01;
-      this.cube.rotation.y += 0.01;
+      // Create star field
+      const starGeometry = new THREE.BufferGeometry();
+      const starMaterial = new THREE.PointsMaterial({
+        size: 0.5,
+        map: starTexture,
+        alphaTest: 0.5,
+        transparent: true
+      });
 
-      this.renderer.render(this.scene, this.camera);
+      const starVertices = [];
+      for (let i = 0; i < 10000; i++) {
+        const x = THREE.MathUtils.randFloatSpread(2000);
+        const y = THREE.MathUtils.randFloatSpread(2000);
+        const z = THREE.MathUtils.randFloatSpread(2000);
+        starVertices.push(x, y, z);
+      }
+      starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+      const stars = new THREE.Points(starGeometry, starMaterial);
+      scene.add(stars);
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+
+        stars.rotation.x += 0.0002;
+        stars.rotation.y += 0.0002;
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+
+      window.addEventListener('resize', () => {
+        const newWidth = container.clientWidth;
+        const newHeight = container.clientHeight;
+        renderer.setSize(newWidth, newHeight);
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+      });
     }
   }
 };
 </script>
 
 <style>
-.three-container {
+.starry-container {
+  background: black;
+  height: 100%;
   width: 100%;
-  height: 100vh;
 }
 </style>
