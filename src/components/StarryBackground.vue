@@ -29,8 +29,8 @@ export default {
       container.appendChild(renderer.domElement);
 
       const loader = new THREE.TextureLoader();
-      const starTexture = loader.load('/star.png');
-      // const starTexture = loader.load('/threejs_playground/star.png');
+      // const starTexture = loader.load('/star.png');
+      const starTexture = loader.load('/threejs_playground/star.png');
 
       const starGeometry = new THREE.BufferGeometry();
       const starMaterial = new THREE.PointsMaterial({
