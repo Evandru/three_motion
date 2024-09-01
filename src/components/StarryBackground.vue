@@ -7,6 +7,10 @@ import * as THREE from 'three';
 
 export default {
   name: 'StarryBackground',
+  props:{
+    x_move: Number,
+    y_move: Number,
+  },
   mounted() {
     this.initThree();
   },
@@ -25,17 +29,17 @@ export default {
       container.appendChild(renderer.domElement);
 
       const loader = new THREE.TextureLoader();
-      // const starTexture = loader.load('/star.png');
-      const starTexture = loader.load('/threejs_playground/star.png');
+      const starTexture = loader.load('/star.png');
+      // const starTexture = loader.load('/threejs_playground/star.png');
 
       const starGeometry = new THREE.BufferGeometry();
       const starMaterial = new THREE.PointsMaterial({
         size: 0.5,
         map: starTexture,
         alphaTest: 0.5,
-        transparent: true
+        transparent: true,
       });
-
+      
       const starVertices = [];
       for (let i = 0; i < 10000; i++) {
         const x = THREE.MathUtils.randFloatSpread(2000);
@@ -51,8 +55,8 @@ export default {
       const animate = () => {
         requestAnimationFrame(animate);
 
-        stars.rotation.x += 0.0002;
-        stars.rotation.y += 0.0002;
+        stars.rotation.x += this.x_move || 0.00025;
+        stars.rotation.y += this.y_move || 0.00025;
 
         renderer.render(scene, camera);
       };

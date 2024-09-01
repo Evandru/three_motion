@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <ThreeComponent/>
-    <LoginComponent class="login" :style="{opacity: logged ? 0 : 1}" @confirm="logged=true;"/>
+    <InitialPage/>
   </div>
 </template>
 
 <script>
-import LoginComponent from './components/LoginComponent.vue'
-import ThreeComponent from './components/ThreeComponent.vue'
+import InitialPage from './Initial_page/InitialPage.vue'
 export default {
   name: 'App',
   components: {
-    LoginComponent,
-    ThreeComponent,
-  },
-  data(){
-    return {
-      logged: false,
-    }
+    InitialPage,
   },
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
+.font_montserrat{
+  font-family: "Montserrat" !important;
+}
+.font_space{
+  font-family: "Space Grotesk" !important;
+}
+
 body{
   margin:0px;
 }
@@ -32,13 +34,19 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  overflow: hidden;
-  width:100vw;
-  height:100vh;
+  min-width:100vw;
+  min-height:100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  overflow-x: hidden !important;
 }
+
+.maximize{
+  height:100vh; 
+  width:100vw;
+}
+
 .login{
   transition: ease-out 1s;
 }
