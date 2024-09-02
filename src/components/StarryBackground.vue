@@ -8,6 +8,7 @@ import * as THREE from 'three';
 export default {
   name: 'StarryBackground',
   props:{
+    size: Number,
     x_move: Number,
     y_move: Number,
   },
@@ -29,12 +30,12 @@ export default {
       container.appendChild(renderer.domElement);
 
       const loader = new THREE.TextureLoader();
-      // const starTexture = loader.load('/star.png');
-      const starTexture = loader.load('/threejs_playground/star.png');
+      const starTexture = loader.load('/star.png');
+      // const starTexture = loader.load('/threejs_playground/star.png');
 
       const starGeometry = new THREE.BufferGeometry();
       const starMaterial = new THREE.PointsMaterial({
-        size: 0.5,
+        size: this.size || 0.5,
         map: starTexture,
         alphaTest: 0.5,
         transparent: true,
@@ -64,8 +65,9 @@ export default {
       animate();
 
       window.addEventListener('resize', () => {
-        const newWidth = container.clientWidth;
-        const newHeight = container.clientHeight;
+        const newContainer = this.$refs.starryContainer;
+        const newWidth = newContainer.clientWidth;
+        const newHeight = newContainer.clientHeight;
         renderer.setSize(newWidth, newHeight);
         camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();

@@ -1,5 +1,5 @@
 <template>
-  <div ref="InterativeContainer" class="interative-container"></div>
+    <div ref="InterativeContainer" class="interative-container"></div>
 </template>
 
 <script>
@@ -103,10 +103,11 @@ export default {
 
         // Ajusta o renderizador ao redimensionar a janela
         window.addEventListener('resize', () => {
-            const width = width;
-            const height = height;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
+            const newContainer = this.$refs.InterativeContainer;
+            const newWidth = newContainer.clientWidth;
+            const newHeight = newContainer.clientHeight;
+            renderer.setSize(newWidth, newHeight);
+            camera.aspect = newWidth / newHeight;
             camera.updateProjectionMatrix();
         });
     }
